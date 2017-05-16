@@ -1,16 +1,20 @@
-import os
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.wait import WebDriverWait
 
-from appium import webdriver
 
-if __name__ == "__main__":
-    desired_capabilities = {
-        'platformName': 'Android',
-        'deviceName': 'Android Emulator',
-        'noReset': True,
-        'fullReset': False,
-        'app': os.path.join(os.path.dirname(__file__), '../../../Carousell-test-engineering-app.apk'),
-        'appPackage': 'com.thecarousell.Carousell',
-        'appActivity': 'com.thecarousell.Carousell.activities.WelcomeActivity'
-    }
-    webdriver.Remote('http://localhost:4723/wd/hub', desired_capabilities)
+class CarousellView:
+    def __init__(self, wd):
+        self.wd = wd
+
+    @classmethod
+    def is_in_view(cls, wd):
+        return True
+
+    @classmethod
+    def create(cls, wd):
+        try:
+            WebDriverWait(wd, 10).until(cls.is_in_view)
+        except TimeoutException:
+            return None
+        return cls(wd)
 
