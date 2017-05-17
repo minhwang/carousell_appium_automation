@@ -28,7 +28,7 @@ if __name__ == "__main__":
     desired_capabilities = {
         'platformName': 'Android',
         'deviceName': 'Android Emulator',
-        'noReset': True,
+        'noReset': False,
         'fullReset': False,
         'app': os.path.join(os.path.dirname(__file__), '../../../Carousell-test-engineering-app.apk'),
         'appPackage': 'com.thecarousell.Carousell',
