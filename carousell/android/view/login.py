@@ -1,6 +1,7 @@
 from selenium.common.exceptions import NoSuchElementException
 
 from carousell.android.view import CarousellView
+from carousell.android.view.home import Home
 
 
 class LoginWithEmail(CarousellView):
@@ -23,6 +24,7 @@ class LoginWithEmail(CarousellView):
         self.wd.find_element_by_id(self._id_username).set_value(username)
         self.wd.find_element_by_id(self._id_password).set_value(password)
         self.wd.find_element_by_id(self._id_login_button).click()
+        return Home.create(self.wd)
 
     def signup(self):
         pass
