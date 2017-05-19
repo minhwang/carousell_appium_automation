@@ -1,6 +1,6 @@
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 
-from carousell.android.view import CarousellView, FeatureDialog, ConfirmOfferDialog
+from carousell.android.view import CarousellView, FeatureDialog
 
 
 class ProductList(CarousellView):
@@ -21,7 +21,7 @@ class ProductList(CarousellView):
     def view_product(self, idx):
         try:
             self.wd.find_elements_by_id(self._id_view_product)[idx].click()
-            return Product.create(self.driver)
+            return Product.create(self.wd)
         except (WebDriverException, IndexError):
             return None
 
@@ -69,7 +69,7 @@ class Offer(CarousellView):
         self.wd.find_element_by_id(self._id_text_offer).set_value(money)
 
     def get_money(self):
-        return self.wd.find_element_by_id(self._id_text_offer).text()
+        return self.wd.find_element_by_id(self._id_text_offer).text
 
 
 class Chat(CarousellView):
@@ -83,3 +83,26 @@ class Chat(CarousellView):
         except (NoSuchElementException, AssertionError):
             return False
         return True
+
+
+class ConfirmOfferDialog(CarousellView):
+    _id_yes = 'android:id/button1'
+    _id_no = 'android:id/button2'
+
+    @classmethod
+    def is_in_view(cls, wd):
+        try:
+            assert super().is_in_view(wd)
+            wd.find_element_by_id(cls._id_yes)
+            wd.find_element_by_id(cls._id_no)
+        except (NoSuchElementException, AssertionError):
+            return False
+        return True
+
+    def yes(self):
+        self.find_element_by_id(self._id_yes).click()
+        return Chat.create(self.wd)
+
+    def no(self):
+        self.find_element_by_id(self._id_no).click()
+        return Offer.create(self.wd)
