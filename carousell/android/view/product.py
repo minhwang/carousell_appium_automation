@@ -100,9 +100,9 @@ class ConfirmOfferDialog(CarousellView):
         return True
 
     def yes(self):
-        self.find_element_by_id(self._id_yes).click()
+        self.wd.find_element_by_id(self._id_yes).click()
         return Chat.create(self.wd)
 
     def no(self):
-        self.find_element_by_id(self._id_no).click()
+        self.wd.find_element_by_id(self._id_no).click()
         return Offer.create(self.wd)
